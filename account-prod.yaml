@@ -1,0 +1,37 @@
+database: postgres
+app:
+  issuer-uri: ${HOST_ISSUER_URI:}
+server:
+  servlet:
+    context-path: /api/account
+  port: 8083
+
+spring:
+  profile: prod
+  flyway:
+    locations: classpath:db/migration/${database}
+  datasource:
+    url: jdbc:postgresql://dmservices-database:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driverClassName: org.postgresql.Driver
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: DEBUG
+            StatementCreatorUtils: TRACE
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+        SQL: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, info

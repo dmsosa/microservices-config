@@ -1,0 +1,60 @@
+database: h2
+
+server:
+  servlet:
+    context-path: /api/noti
+  port: 8084
+spring:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+  profile: dev
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: pepemanso85@gmail.com
+    password: daaihaeiqmzrjrdu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  datasource:
+    url: jdbc:h2:mem:demo
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    defer-datasource-initialization: false
+  h2:
+    console:
+      enabled: true
+  flyway:
+    locations: classpath:/db/migration/${database}
+backup:
+  cron: "*/10 * * * * *"
+  email:
+    subject: "Backup message from Duvi Dmservices Team!"
+    text: "Hey, {0}!\n We hope you're doing well, in the next section you can find your backup data for this {1}.\nRegards,\n\nDmservices Team."
+    attachment: "backup.json"
+remind:
+  cron: "*/10 * * * * *"
+  email:
+    subject: "Reminder from Dmservices Team!"
+    text: "Hey, {0}!\n It's always good to see you, we are committed to remind you every {1} to consider coming back, your finances do not sleep!\nThis is an automatic notification, if you do reply to this email february 30th will come before you get an answer..\n\nRegards,\n\nDmservices Team."
+#logging & management
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, info

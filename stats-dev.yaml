@@ -1,0 +1,35 @@
+server:
+  servlet:
+    context-path: /api/stats
+  port: 8085
+spring:
+  profile: dev
+  datasource:
+    url: jdbc:h2:mem:demo
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  h2:
+    console:
+      enabled: true
+  devtools:
+    livereload:
+      enabled: false
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, info

@@ -1,0 +1,36 @@
+database: postgres
+
+server:
+  servlet:
+    context-path: /api/uaa
+  port: 9000
+
+spring:
+  profile: prod
+  security:
+    oauth2:
+      resource-server:
+        issuer-uri: http://localhost:9000/api/uaa
+  flyway:
+    locations: classpath:db/migration/${database}
+  datasource:
+    driverClassName: org.postgresql.Driver
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    #    using the container’s name as hostname
+    url: jdbc:postgresql://dmservices-database:5432/${POSTGRES_DB}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+#logging & management
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, info
